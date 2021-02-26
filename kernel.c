@@ -16,7 +16,7 @@ size_t strlen(const char *str) {
 uint16_t *const screen_buffer = (uint16_t *)0xB8000;
 
 static const unsigned screen_width = 80;
-static const unsigned screen_height = 50;
+static const unsigned screen_height = 25;
 unsigned cursor_x = 0;
 unsigned cursor_y = 0;
 
@@ -30,6 +30,14 @@ void scroll_screen() {
   uint16_t *dest = screen_buffer;
   while (dest != end) {
     *dest++ = *src++;
+  }
+
+  // Fill last line with spaces
+  const uint16_t attribute = (text_color | (bg_color << 4)) << 8;
+  const char c = ' ';
+  end += screen_width;
+  while (dest != end) {
+    *dest++ = attribute | c;
   }
 }
 
@@ -47,7 +55,7 @@ void print_char(char c) {
     print_new_line();
     return;
   }
-  uint16_t attribute = (text_color | (bg_color << 4)) << 8;
+  const uint16_t attribute = (text_color | (bg_color << 4)) << 8;
   screen_buffer[cursor_y * screen_width + cursor_x] = attribute | (uint8_t)c;
   ++cursor_x;
   if (cursor_x == screen_width) {
@@ -72,7 +80,7 @@ void halt(void);
 
 void kernel_start(void) {
   print_str("Hello, kernel!\n");
-  for (unsigned i = 0; i < 50; ++i) {
+  for (unsigned i = 0; i < 250; ++i) {
     kernel_sleep(100);
     text_color = i % 15;
     bg_color = 0;
@@ -85,6 +93,7 @@ void kernel_start(void) {
   }
   text_color = 15;
   bg_color = 0;
+  print_new_line();
   print_str("Goodbye, halt.");
   halt();
 }

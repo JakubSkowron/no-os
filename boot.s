@@ -15,7 +15,7 @@
     .skip 20
     .long 1     # mode_type: EGA text mode
     .long 80    # width
-    .long 50    # height
+    .long 25    # height
     .long 0     # bpp
 
 # Uninitialized data
