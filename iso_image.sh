@@ -3,10 +3,11 @@
 # Make .iso image
 
 target=os.iso
-dir=iso_image
+source=build/os.bin
+isodir=build/iso_image
 
-mkdir -p ${dir}/boot/grub
-cp os.bin ${dir}/boot/
-cp grub.cfg ${dir}/boot/grub
+mkdir -p ${isodir}/boot/grub
+cp ${source} ${isodir}/boot/
+cp grub.cfg ${isodir}/boot/grub
 
-grub-mkrescue -o ${target} ${dir}
+grub-mkrescue -o ${target} ${isodir}

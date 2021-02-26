@@ -1,4 +1,11 @@
-#include <standard_functions.h>
+#include <stdfun.h>
+
+size_t strlen(const char *str) {
+  const char *p = str;
+  while (*p++)
+    ;
+  return p - str;
+}
 
 uint8_t *memmove(uint8_t *dest, const uint8_t *src, size_t n) {
   uint8_t *const ret = dest;
