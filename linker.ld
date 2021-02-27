@@ -1,25 +1,42 @@
-/* GNU linker script, gcc -T */
+/*
+  BOOTBOOT linker script, gcc -T 
+  Specification [ https://gitlab.com/bztsrc/bootboot/-/blob/master/bootboot_spec_1st_ed.pdf ]
+ */
 
-ENTRY(kernel_entry)
+fb =   0xfffffffffc000000;  /* linear frame buffer */
+mmio = 0xfffffffff8000000;  /* Memory-Mapped Input/Output area */
+initstack = 1024;           /* starts at adress 0, grows downwards */
+
+PHDRS {
+    boot PT_LOAD;
+}
 
 SECTIONS {
-    . = 1M;     /* start at 1MB */
+    . = 0xffffffffffe00000;
+    bootboot = .;     /* bootboot structure */
+    . += 4096;
+    environment = .;  /* '\n' separated, zero terminated UTF-8 string with "key=value" pairs */
+    . += 4096;
 
-    .text BLOCK(4K) : ALIGN(4K) {
-        *(.multiboot)   /* multiboot header */
-        *(.text)        /* code */
-    }
+    .text : {
+        KEEP(*(.text.boot)) *(.text .text.*)
+        *(.rodata .rodata.*)
+        *(.data .data.*)
 
-    .rodata BLOCK(4K) : ALIGN(4K) {
-        *(.rodata)
-    }
+    } : boot
 
-    .data BLOCK(4K) : ALIGN(4K) {
-        *(.data)
-    }
+    .bss (NOLOAD) : {
+        . = ALIGN(16);
+        *(.bss .bss.*)
+        *(COMMON)       /* everything else */
+    } : boot
 
-    .bss BLOCK(4K) : ALIGN(4K) {
-        *(.bss)
-        *(COMMON)   /* everything else */
+    /DISCARD/ : {
+        *(.comment)
+        *(.eh_frame)
     }
 }
+
+/* Kernel entry point is in ELF at Elf64_Ehdr.e_entry */
+
+

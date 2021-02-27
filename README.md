@@ -1,7 +1,7 @@
 # os - minimal kernel
 
 ## Build
-You need a cross gcc and binutils: `--target=i686-elf`
+You need a cross gcc and binutils: `--target=x86_64-elf`, and a [BOOTBOOT dist](https://gitlab.com/bztsrc/bootboot/-/tree/master/dist)
 ```
 ./build.sh
 ```
@@ -9,15 +9,20 @@ You need a cross gcc and binutils: `--target=i686-elf`
 More information: https://wiki.osdev.org/GCC_Cross-Compiler#Preparing_for_the_build
 
 ## Make .iso image
-You need `grub` and `xorriso`
+You need `mkbootimg`
 ```
 ./iso_image.sh
 ```
 
 You can either use the resulting `.iso` image to boot a virtual machine (VirtualBox,...), or write to physical medium (USB,...) and boot on real hardware.
 
-Needs BIOS (doesn't understand UEFI).
-
 Use _Other/Unknown_ operating system setting in virtual machine.
 
-Based on [this tutorial](https://wiki.osdev.org/C++_Bare_Bones) at wiki.osdev.org
+## BOOTBOOT
+This kernel uses [BOOTBOOT](https://gitlab.com/bztsrc/bootboot) as a bootloader. It supports x86_64-efi.
+For more information and example kernel implementations see [BOOTBOOT Example Kernels](https://gitlab.com/bztsrc/bootboot/-/tree/master/mykernel)
+
+Specification: https://gitlab.com/bztsrc/bootboot/-/blob/master/bootboot_spec_1st_ed.pdf
+
+## wiki.osdev.org
+Many useful tutorials and informations at https://wiki.osdev.org/

@@ -2,12 +2,15 @@
 
 # Make .iso image
 
-target=os.iso
-source=build/os.bin
-isodir=build/iso_image
+target=os64.iso
+source=build/os64.bin
+isodir=iso_image
+mkbootimg=~/opt/bootboot/mkbootimg
 
-mkdir -p ${isodir}/boot/grub
-cp ${source} ${isodir}/boot/
-cp grub.cfg ${isodir}/boot/grub
+mkdir -p ${isodir}/boot/sys
+cp ${source} ${isodir}/boot/sys/core
+cp bootboot.cfg ${isodir}/boot/sys/config
+cp bootboot.json ${isodir}
 
-grub-mkrescue -o ${target} ${isodir}
+cd ${isodir}
+$mkbootimg bootboot.json ${target}

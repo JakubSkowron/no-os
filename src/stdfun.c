@@ -26,3 +26,12 @@ uint8_t *memmove(uint8_t *dest, const uint8_t *src, size_t n) {
     return ret;
   }
 }
+
+uint8_t *memcpy(uint8_t *dest, const uint8_t *src, size_t n) {
+  uint8_t *const ret = dest;
+  const uint8_t *end = dest + n;
+  while (dest != end) {
+    *dest++ = *src++;
+  }
+  return ret;
+}

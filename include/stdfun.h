@@ -6,5 +6,6 @@
 
 size_t strlen(const char *str);
 uint8_t *memmove(uint8_t *dest, const uint8_t *src, size_t n);
+uint8_t *memcpy(uint8_t *dest, const uint8_t *src, size_t n);
 
 #endif // _STDFUN_H
