@@ -41,3 +41,5 @@ ${toolchain}/x86_64-elf-readelf -hls os64.bin > os64.bin.txt
 
 cd ..
 ./iso_image.sh
+
+cp iso_image/os64.iso .

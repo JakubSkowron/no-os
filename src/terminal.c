@@ -155,6 +155,7 @@ void move_to(uint32_t tox, uint32_t toy) {
 }
 
 void draw_line(int32_t dx, int32_t dy) {
+  double inc = abs(dx) / (abs(dx) + abs(dy));
   double dydx = (double)dy / (double)dx;
   double x = 0;
   double endx = 0;
@@ -165,7 +166,7 @@ void draw_line(int32_t dx, int32_t dy) {
     x = cursor_x;
     endx = cursor_x + dx;
   }
-  for (; x < endx; x += 0.5) {
+  for (; x < endx; x += inc) {
     double y = cursor_y + (x - cursor_x) * dydx;
     screen_buffer[scanline_size * (unsigned)y + (unsigned)x] = text_color;
   }

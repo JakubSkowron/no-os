@@ -28,19 +28,19 @@ void kernel_sleep(size_t megacycles) {
 
 // apic_id - identifier of executing processor
 void kernel_start(uint16_t apic_id) {
+  init_terminal();
+
   if (apic_id != bootboot.bspid) {
     // not a bootstrap processor
-    kernel_sleep(apic_id * 10);
-    move_to(0, apic_id * 50);
+    kernel_sleep(apic_id);
+    move_to(0, (apic_id + 1) * 28);
     print_str("CPU");
     print_hex16(apic_id);
     return;
   }
 
-  init_terminal();
-
   print_str("Hello, kernel!\n");
-  print_str("Bootstrap CPU");
+  print_str("CPU");
   print_hex16(apic_id);
 
   move_to(screen_width / 2, screen_height / 2);
@@ -51,10 +51,10 @@ void kernel_start(uint16_t apic_id) {
 
   text_color = 0x0011F0F0;
   for (unsigned i = 0; i < 100; ++i) {
-    kernel_sleep(50);
+    kernel_sleep(10);
     text_color = (text_color * 15) & 0x00FFFFFF;
     print_str("ping ");
-    kernel_sleep(50);
+    kernel_sleep(10);
     text_color = (text_color * 15) & 0x00FFFFFF;
     print_str("pong ");
   }

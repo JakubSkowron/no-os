@@ -35,3 +35,5 @@ uint8_t *memcpy(uint8_t *dest, const uint8_t *src, size_t n) {
   }
   return ret;
 }
+
+double abs(double x) { return x == 0 ? 0 : (x > 0 ? x : -x); }
