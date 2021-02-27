@@ -86,6 +86,10 @@ void print_char(char c) {
     return;
   }
 
+  if (cursor_x + font.width >= screen_width) {
+    print_new_line();
+  }
+
   uint8_t n = (uint8_t)c;
 
   // check if glyph exists
@@ -121,9 +125,6 @@ void print_char(char c) {
   }
 
   cursor_x += font.width;
-  if (cursor_x >= screen_width) {
-    print_new_line();
-  }
 }
 
 void print_str(const char *str) {

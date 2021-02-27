@@ -36,3 +36,8 @@ $cc ${cflags} -T ../linker.ld -o os64.bin boot.o font.o ../kernel.c ../src/stdfu
 
 ${toolchain}/x86_64-elf-strip --strip-all -K mmio -K fb -K bootboot -K environment -K initstack os64.bin
 ${toolchain}/x86_64-elf-readelf -hls os64.bin > os64.bin.txt
+
+# Build ISO image
+
+cd ..
+./iso_image.sh
