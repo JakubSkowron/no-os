@@ -32,14 +32,17 @@ void kernel_start(uint16_t apic_id) {
 
   if (apic_id != bootboot.bspid) {
     // not a bootstrap processor
-    kernel_sleep(apic_id);
-    move_to(0, (apic_id + 1) * 28);
+    kernel_sleep(apic_id * 2);
+    move_to(0, (apic_id + 2) * 28);
     print_str("CPU");
     print_hex16(apic_id);
     return;
   }
 
   print_str("Hello, kernel!\n");
+  print_str("Number of cores: 0x");
+  print_hex16(bootboot.numcores);
+  print_new_line();
   print_str("CPU");
   print_hex16(apic_id);
 
